@@ -6,12 +6,9 @@ const morgan = require('morgan');
 
 // Load env config
 const config = dotenv.config({ path: './config/config.env' });
-
 if (config.error) {
   throw config.error;
 }
-
-console.log(config.parsed);
 
 // Initialize express app
 const app = express();

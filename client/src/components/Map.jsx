@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -11,9 +11,48 @@ const Map = ({ center, zoom }) => {
     googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
   });
 
+  useEffect(() => {
+    console.log({isLoaded});
+  }, [isLoaded])
+
+  const getGeocoderInfo = (latLng) => {
+    if (isLoaded) {
+      const geocoder = new window.google.maps.Geocoder();
+
+      const geoRequest = {
+        location: latLng,
+      }
+
+      geocoder.geocode(geoRequest, (res) => {
+        // console.log(res[0]);
+        filterGeocoderData(res[0].address_components); // pass first array item as address component
+      });
+    } else {
+      console.log('Function aborted, map is not loaded.');
+      return;
+    }
+  }
+
+  const filterGeocoderData = (addressComponent) => {
+    // Takes a google.maps.GeocoderAddressComponent object as its addressComponent parameter
+    const addressFilters = ['country', 'administrative_area_level_1'];
+    let address = {};
+
+    addressFilters.forEach(type => {
+      address[type] = addressComponent.filter(component => {
+        return component.types.includes(type);
+      })[0];
+    });
+
+    console.log(`${address.administrative_area_level_1.long_name}, ${address.country.short_name}`);
+    return address;
+  }
+
   const handleMapClick = (e) => {
-    console.log(e);
-    console.log(window.google);
+    // console.log(e.latLng);
+    getGeocoderInfo(e.latLng);
+
+    // console.log(window.google.maps);
   }
 
   const options = {

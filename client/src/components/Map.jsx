@@ -1,21 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-
-const containerStyle = {
-  width: '100vw',
-  height: '100vh'
-};
 
 const Map = ({ center, zoom }) => {
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
   });
 
-  useEffect(() => {
-    console.log({isLoaded});
-  }, [isLoaded])
-
-  const getGeocoderInfo = (latLng) => {
+  const getGeocoderData = (latLng) => {
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
 
@@ -36,30 +27,43 @@ const Map = ({ center, zoom }) => {
   const filterGeocoderData = (addressComponent) => {
     // Takes a google.maps.GeocoderAddressComponent object as its addressComponent parameter
     const addressFilters = ['country', 'administrative_area_level_1'];
+    const addressType = ['country', 'state']; // the returned object will use these as keys
     let address = {};
 
-    addressFilters.forEach(type => {
-      address[type] = addressComponent.filter(component => {
+    addressFilters.forEach((type, i) => {
+      address[addressType[i]] = addressComponent.filter(component => {
         return component.types.includes(type);
       })[0];
     });
 
-    console.log(`${address.administrative_area_level_1.long_name}, ${address.country.short_name}`);
+    console.log(`${address.state.long_name}, ${address.country.short_name}`);
+    // console.log(address);
     return address;
   }
 
   const handleMapClick = (e) => {
     // console.log(e.latLng);
-    getGeocoderInfo(e.latLng);
+    getGeocoderData(e.latLng);
 
     // console.log(window.google.maps);
   }
 
-  const options = {
-    mapId: '68772a9c3c544499'
-  }
-
   const renderMap = () => {
+    const options = {
+      mapId: '68772a9c3c544499',
+      mapTypeControl: false,
+      streetViewControl: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: window.google.maps.ControlPosition.TOP_LEFT,
+      }
+    }
+
+    const containerStyle = {
+      width: '100%',
+      height: '100%'
+    };
+
     return (
       <GoogleMap
         mapContainerStyle={containerStyle}

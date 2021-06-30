@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  IoClose as CloseIcon,
   IoChevronBack as BackIcon,
 } from 'react-icons/io5';
 import { show } from './sidebarSlice';

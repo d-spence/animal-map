@@ -1,9 +1,8 @@
 import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { useSelector, useDispatch } from 'react-redux';
-import { 
-  setLocation,
-} from './mapSlice';
+import { useDispatch } from 'react-redux';
+import { setLocation } from './mapSlice';
+import { show } from '../sidebar/sidebarSlice';
 
 const Map = ({ center, zoom }) => {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ const Map = ({ center, zoom }) => {
 
       await geocoder.geocode(geoRequest, (results, status) => {
         if (status === 'OK') {
-          if (results[0]) {
+          if (results.length > 0) {
             locationData = filterGeocoderData(results[0].address_components); // pass first array item as address component
           } else {
             window.alert('No results found');
@@ -35,6 +34,7 @@ const Map = ({ center, zoom }) => {
       console.log('Cannot get geocoder data, map is not loaded.');
     }
 
+    console.log(`${locationData?.state?.long_name || ''}, ${locationData?.country?.short_name || ''}`);
     return locationData;
   }
 
@@ -50,7 +50,6 @@ const Map = ({ center, zoom }) => {
       })[0];
     });
 
-    console.log(`${locationData.state.long_name}, ${locationData.country.short_name}`);
     // console.log(locationData);
     return locationData;
   }
@@ -60,6 +59,7 @@ const Map = ({ center, zoom }) => {
     const locationPromise = getGeocoderData(e.latLng);
     locationPromise.then(locationData => {
       dispatch(setLocation(locationData));
+      dispatch(show()); // show the sidebar if hidden
     });
   }
 

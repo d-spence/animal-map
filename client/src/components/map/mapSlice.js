@@ -3,16 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 export const mapSlice = createSlice({
   name:'map',
   initialState: {
-    activeLocation: null,
+    currentLocation: null,
     prevLocations: [],
   },
   reducers: {
     setLocation: (state, action) => {
-      if (state.activeLocation) {
-        state.prevLocations = [...state.prevLocations, state.activeLocation];
+      if (state.currentLocation) {
+        state.prevLocations = [...state.prevLocations, state.currentLocation];
       }
 
-      state.activeLocation = action.payload;
+      state.currentLocation = action.payload;
     },
   }
 });

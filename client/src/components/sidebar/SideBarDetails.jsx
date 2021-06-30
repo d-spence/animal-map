@@ -9,7 +9,7 @@ import {
 } from 'react-icons/io5';
 
 const SideBarDetails = () => {
-  const location = useSelector((state) => state.map.activeLocation);
+  const location = useSelector((state) => state.map.currentLocation);
   const dispatch = useDispatch();
 
   return (

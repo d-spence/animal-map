@@ -1,54 +1,69 @@
 import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useSelector, useDispatch } from 'react-redux';
+import { 
+  setLocation,
+} from './mapSlice';
 
 const Map = ({ center, zoom }) => {
+  const dispatch = useDispatch();
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
   });
 
-  const getGeocoderData = (latLng) => {
+  const getGeocoderData = async (latLng) => {
+    let locationData = {};
+
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
-
       const geoRequest = {
         location: latLng,
       }
 
-      geocoder.geocode(geoRequest, (res) => {
-        // console.log(res[0]);
-        filterGeocoderData(res[0].address_components); // pass first array item as address component
+      await geocoder.geocode(geoRequest, (results, status) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            locationData = filterGeocoderData(results[0].address_components); // pass first array item as address component
+          } else {
+            window.alert('No results found');
+          }
+        } else {
+          window.alert(`Geocoder failed due to: ${status}`);
+        }
       });
     } else {
-      console.log('Function aborted, map is not loaded.');
-      return;
+      console.log('Cannot get geocoder data, map is not loaded.');
     }
+
+    return locationData;
   }
 
-  const filterGeocoderData = (addressComponent) => {
-    // Takes a google.maps.GeocoderAddressComponent object as its addressComponent parameter
+  const filterGeocoderData = (addressComponents) => {
+    // Takes a google.maps.GeocoderAddressComponent object as its addressComponents parameter
     const addressFilters = ['country', 'administrative_area_level_1'];
     const addressType = ['country', 'state']; // the returned object will use these as keys
-    let address = {};
+    let locationData = {};
 
     addressFilters.forEach((type, i) => {
-      address[addressType[i]] = addressComponent.filter(component => {
+      locationData[addressType[i]] = addressComponents.filter(component => {
         return component.types.includes(type);
       })[0];
     });
 
-    console.log(`${address.state.long_name}, ${address.country.short_name}`);
-    // console.log(address);
-    return address;
+    console.log(`${locationData.state.long_name}, ${locationData.country.short_name}`);
+    // console.log(locationData);
+    return locationData;
   }
 
   const handleMapClick = (e) => {
-    // console.log(e.latLng);
-    getGeocoderData(e.latLng);
-
     // console.log(window.google.maps);
+    const locationPromise = getGeocoderData(e.latLng);
+    locationPromise.then(locationData => {
+      dispatch(setLocation(locationData));
+    });
   }
 
-  const renderMap = () => {
+  const initMap = () => {
     const options = {
       mapId: '68772a9c3c544499',
       mapTypeControl: false,
@@ -81,7 +96,7 @@ const Map = ({ center, zoom }) => {
     return <div>Map cannot be loaded right now.</div>;
   }
 
-  return isLoaded ? renderMap() : <></>; // TODO: Add spinner component when loading
+  return isLoaded ? initMap() : <></>; // TODO: Add spinner component when loading
 }
 
 Map.defaultProps = {

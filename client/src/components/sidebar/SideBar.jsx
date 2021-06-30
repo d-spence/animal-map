@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InfoBar = () => {
+const SideBar = () => {
   return (
     <aside className="w-1/2 bg-green-50 p-4">
       <img className="rounded" 
@@ -21,4 +21,4 @@ const InfoBar = () => {
   );
 }
 
-export default InfoBar;
+export default SideBar;

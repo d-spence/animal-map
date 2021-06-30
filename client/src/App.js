@@ -1,7 +1,7 @@
 import React from 'react';
-import Map from './components/Map';
-import TopNav from './components/TopNav';
-import InfoBar from './components/InfoBar';
+import Map from './components/map/Map';
+import TopNav from './components/topnav/TopNav';
+import SideBar from './components/sidebar/SideBar';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <TopNav />
       <div className="flex w-full h-full">
         <Map />
-        <InfoBar />
+        <SideBar />
       </div>
     </div>
   );

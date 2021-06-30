@@ -1,23 +1,32 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  IoClose as CloseIcon,
+  IoChevronBack as BackIcon,
+} from 'react-icons/io5';
+import { show } from './sidebarSlice';
+import SideBarDetails from './SideBarDetails';
+
+
 
 const SideBar = () => {
+  const hidden = useSelector((state) => state.sidebar.hidden);
+  const dispatch = useDispatch();
+
   return (
-    <aside className="w-1/2 bg-green-50 p-4">
-      <img className="rounded" 
-        src="https://www.wildlifeonline.me.uk/assets/ugc/gallery/fallow_buck_resting.jpg" alt="animal" 
-      />
-
-      <h2 className="text-xl mt-4">Fallow Deer</h2>
-      
-      <h4 className="text-lg mt-4">Description</h4>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum non provident magnam unde corrupti hic beatae exercitationem est earum quia.</p>
-
-      <h4 className="text-lg mt-8">Details</h4>
-      <p>Common Name: Fallow Deer</p>
-      <p>Species Name: Cervus dama</p>
-      <p>Weight: 80lbs</p>
-      <p>Location: Texas, US</p>
-    </aside>
+    <>
+    {hidden
+      ? <aside 
+          className="flex items-center top-0 right-0 bg-gray-50 hover:bg-green-200 hover:text-green-500 cursor-pointer"
+          onClick={() => dispatch(show())}
+        >
+          <BackIcon className="text-lg m-0 p-0"/>
+        </aside>
+      : <aside className="w-1/2 bg-gray-50 px-4">
+          <SideBarDetails />
+        </aside>
+    }
+    </>
   );
 }
 

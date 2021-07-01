@@ -10,7 +10,7 @@ export const animalMapApi = createApi({
       query: (data) => ({ 
         url: 'animals',
         method: 'GET',
-        body: data,
+        params: data,
       }),
     })
   })

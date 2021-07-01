@@ -7,8 +7,8 @@ import { useGetAnimalsQuery } from './app/animalMapApiSlice';
 
 function App() {
   const animalQueryData = {
-    country: useSelector((state) => state?.map?.currentLocation?.country?.long_name) || '',
-    state: useSelector((state) => state?.map?.currentLocation?.state?.long_name) || ''
+    country: useSelector((state) => state?.map?.currentLocation?.country?.long_name) || 'United States',
+    state: useSelector((state) => state?.map?.currentLocation?.state?.long_name) || 'Texas'
   }
   const { data, error, isLoading } = useGetAnimalsQuery(animalQueryData);
 

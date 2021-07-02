@@ -2,8 +2,8 @@ import React from 'react';
 
 const TopNav = () => {
   return (
-    <nav className="bg-green-600">
-      <h1 className="text-2xl ml-3 my-2 text-yellow-100">Animal Map | Species Explorer</h1>
+    <nav className="bg-gray-400">
+      <h1 className="text-2xl ml-3 my-2 text-gray-700"><strong>Animal Map</strong> | Species Explorer</h1>
     </nav>
   );
 }

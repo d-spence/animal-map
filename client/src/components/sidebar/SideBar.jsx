@@ -39,7 +39,7 @@ const SideBar = () => {
     <>
     {hidden
       ? <aside 
-          className="flex items-center top-0 right-0 bg-gray-50 hover:bg-green-200 hover:text-green-500 cursor-pointer"
+          className="flex items-center top-0 right-0 bg-gray-50 hover:bg-gray-200 hover:text-gray-500 cursor-pointer"
           onClick={() => dispatch(show())}
         >
           <BackIcon className="text-lg m-0 p-0"/>

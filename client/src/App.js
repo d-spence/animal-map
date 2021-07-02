@@ -5,12 +5,12 @@ import SideBar from './components/sidebar/SideBar';
 
 function App() {
   return (
-    <div className="flex flex-col justify-between w-full h-screen m-0 p-0 font-sans">
-      <TopNav />
-      <div className="flex w-full h-full">
+    <div className="flex w-full h-screen m-0 p-0 font-sans">
+      <div className="flex flex-col w-full h-full">
+        <TopNav />
         <Map />
-        <SideBar />
       </div>
+      <SideBar />
     </div>
   );
 }

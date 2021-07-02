@@ -69,9 +69,9 @@ const Map = ({ center, zoom }) => {
       mapTypeControl: false,
       streetViewControl: false,
       zoomControl: true,
-      zoomControlOptions: {
-        position: window.google.maps.ControlPosition.TOP_LEFT,
-      }
+      // zoomControlOptions: {
+      //   position: window.google.maps.ControlPosition.TOP_LEFT,
+      // }
     }
 
     const containerStyle = {

@@ -8,9 +8,9 @@ const appSlice = createSlice({
   },
   reducers: {
     setAnimal: (state, action) => {
-      if (state.currentAnimal) {
-        state.prevAnimals = [...state.prevAnimals, state.currentAnimal];
-      }
+      // if (state.currentAnimal) {
+      //   state.prevAnimals = [...state.prevAnimals, state.currentAnimal];
+      // }
 
       state.currentAnimal = action.payload;
     },

@@ -28,3 +28,4 @@ Clicking on the map will return latitude/longitude coordinates, which is sent to
     - Possibly require user login to submit
 - User login/registration
 - Highlight map location on click
+- Expand animal image on click

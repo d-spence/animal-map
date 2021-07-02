@@ -16,4 +16,7 @@ export const animalMapApi = createApi({
   })
 });
 
-export const { useGetAnimalsQuery } = animalMapApi;
+export const { 
+  useGetAnimalsQuery,
+  useLazyGetAnimalsQuery,
+} = animalMapApi;

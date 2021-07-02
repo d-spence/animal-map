@@ -4,13 +4,36 @@ import {
   IoChevronBack as BackIcon,
 } from 'react-icons/io5';
 import { show } from './sidebarSlice';
+import { useGetAnimalsQuery } from '../../app/animalMapApiSlice';
 import SideBarDetails from './SideBarDetails';
-
-
 
 const SideBar = () => {
   const hidden = useSelector((state) => state.sidebar.hidden);
   const dispatch = useDispatch();
+
+  // Retrieve the currentLocation from state and query the API whenever it changes
+  const animalQueryData = {
+    country: useSelector((state) => state?.map?.currentLocation?.country?.long_name) || 'United States',
+    state: useSelector((state) => state?.map?.currentLocation?.state?.long_name) || 'Texas'
+  }
+  const { data, error, isLoading, isFetching } = useGetAnimalsQuery(animalQueryData);
+
+  const getAnimalDetails = (data) => {
+    // Use the first item from the animalsByState array if there is one, else use the first from animalsByCountry
+    if (data.animalsByState.length > 0) {
+      return data.animalsByState[0];
+    } else if (data.animalsByCountry.length > 0) {
+      return data.animalsByCountry[0];
+    }
+  }
+
+  let animalDetails = null;
+  if (!isFetching) {
+    animalDetails = getAnimalDetails(data.data) || null;
+    console.log(animalDetails);
+  } else if (error) {
+    console.log(error);
+  }
 
   return (
     <>
@@ -22,7 +45,10 @@ const SideBar = () => {
           <BackIcon className="text-lg m-0 p-0"/>
         </aside>
       : <aside className="w-1/2 bg-gray-50 px-4">
-          <SideBarDetails />
+          {isLoading
+            ? <h2>Loading...</h2>
+            : <SideBarDetails details={animalDetails} />
+          }
         </aside>
     }
     </>

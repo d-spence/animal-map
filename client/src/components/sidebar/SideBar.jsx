@@ -44,7 +44,7 @@ const SideBar = () => {
         >
           <BackIcon className="text-lg m-0 p-0"/>
         </aside>
-      : <aside className="w-1/2 bg-gray-50 px-4">
+      : <aside className="w-1/2 h-screen bg-gray-50 px-4">
           {isLoading
             ? <h2>Loading...</h2>
             : <SideBarDetails details={animalDetails} />

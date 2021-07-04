@@ -6,6 +6,7 @@ import {
 import {
   IoClose as CloseIcon,
   IoChevronBack as BackIcon,
+  IoChevronForward as ForwardIcon,
 } from 'react-icons/io5';
 import { formatAnimalLocationsArray } from '../../app/utils';
 
@@ -23,8 +24,13 @@ const SideBarDetails = ({ details }) => {
   return (
     <>
       <header className="flex flex-row justify-between py-2">
-        <div className="flex items-center text-xl hover:text-gray-500 cursor-pointer">
-          <BackIcon />Back
+        <div class="flex">
+          <div className="flex items-center text-xl hover:text-gray-500 mr-2 cursor-pointer">
+            <BackIcon />Back
+          </div>
+          <div className="flex items-center text-xl hover:text-gray-500 cursor-pointer">
+            Next<ForwardIcon />
+          </div>
         </div>
         <div className="flex items-center text-2xl hover:text-gray-500 cursor-pointer">
           <CloseIcon onClick={() => dispatch(hide())} />
@@ -40,7 +46,7 @@ const SideBarDetails = ({ details }) => {
             </div>
             
             <h4 className="text-lg mt-2">Description</h4>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum non provident magnam unde corrupti hic beatae exercitationem est earum quia.</p>
+            <p>{details.desc}</p>
 
             <h4 className="text-lg mt-2">Location</h4>
             <p>

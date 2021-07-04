@@ -1,3 +1,4 @@
+const Animal = require('../models/Animal');
 
 const testData = [
   {
@@ -34,19 +35,15 @@ exports.getAnimals = async (req, res, next) => {
   try {
     // attempt to get all animals who match the req state name
     if (req.query.state) {
-      animalsByState = testData.filter(item => (
-        item.states.some(name => (
-          name.toLowerCase() === req.query.state.toLowerCase()
-        ))
-      ));
+      animalsByState = await Animal.find({
+        states: req.query.state
+      });
 
       // also get animals by country name if no results for state
       if (animalsByState.length < 1) {
-        animalsByCountry = testData.filter(item => (
-          item.countries.some(name => (
-            name.toLowerCase() === req.query.country.toLowerCase()
-          ))
-        ));
+        animalsByCountry = await Animal.find({
+          countries: req.query.country
+        });
       }
     }
 

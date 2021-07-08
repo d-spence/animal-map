@@ -2,8 +2,8 @@
 
 export const formatAnimalLocationsArray = (locations, maxLength=4) => {
   // Format an array of countries or states depending on it's length, returned as a string
-  if (locations.length === 1) {
-    return locations[0];
+  if (locations.length <= 1) {
+    return (locations[0]) ? locations[0] : '';
   } else if (locations.length === 2) {
     return `${locations[0]} and ${locations[1]}`;
   } else if (locations.length > 3) {

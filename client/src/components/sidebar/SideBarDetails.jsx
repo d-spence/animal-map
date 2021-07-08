@@ -28,7 +28,10 @@ const SideBarDetails = ({ detailsArr }) => {
     countriesString = formatAnimalLocationsArray(details.countries);
     statesString = formatAnimalLocationsArray(details.states);
 
-    locationDesc = `Can be found within ${countriesString} in the ${statesString} region${(details.states.length > 1) ? 's' : ''}.`
+    locationDesc = (
+      `Can be found ${(countriesString) ? `within ${countriesString}` : ''}` +
+      ` in the ${(statesString) ?  statesString : 'nearby'} region${(details.states.length > 1) ? 's' : ''}.`
+    );
   }
 
   const handleChangeDetails = (next) => {
@@ -61,7 +64,7 @@ const SideBarDetails = ({ detailsArr }) => {
         </div>
       </header>
 
-      {!details
+      {!details.name
         ? <h2 className="text-center mt-4">No details found...</h2>
         : <div>
             <div className="flex flex-col justify-center bg-blue-200 border border-black rounded">

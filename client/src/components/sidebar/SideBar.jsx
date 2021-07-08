@@ -29,7 +29,7 @@ const SideBar = () => {
 
   let animalDetailsArr = [];
   if (!isFetching) {
-    animalDetailsArr = getAnimalDetails(data.data) || null;
+    animalDetailsArr = getAnimalDetails(data.data) || [];
     console.log(animalDetailsArr);
   } else if (error) {
     console.log(error);

@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useDispatch } from 'react-redux';
 import { setLocation } from './mapSlice';
-import { show } from '../sidebar/sidebarSlice';
+import { show as showSidebar } from '../sidebar/sidebarSlice';
 
 const Map = ({ center, zoom }) => {
   const dispatch = useDispatch();
@@ -24,10 +24,10 @@ const Map = ({ center, zoom }) => {
           if (results.length > 0) {
             locationData = filterGeocoderData(results[0].address_components); // pass first array item as address component
           } else {
-            window.alert('No results found');
+            console.log('No results found');
           }
         } else {
-          window.alert(`Geocoder failed due to: ${status}`);
+          console.log(`Geocoder failed due to: ${status}`);
         }
       });
     } else {
@@ -59,7 +59,7 @@ const Map = ({ center, zoom }) => {
     const locationPromise = getGeocoderData(e.latLng);
     locationPromise.then(locationData => {
       dispatch(setLocation(locationData));
-      dispatch(show()); // show the sidebar if hidden
+      dispatch(showSidebar()); // show the sidebar if hidden
     });
   }
 

@@ -21,16 +21,16 @@ const SideBar = () => {
   const getAnimalDetails = (data) => {
     // Use the first item from the animalsByState array if there is one, else use the first from animalsByCountry
     if (data.animalsByState.length > 0) {
-      return data.animalsByState[0];
+      return data.animalsByState;
     } else if (data.animalsByCountry.length > 0) {
-      return data.animalsByCountry[0];
+      return data.animalsByCountry;
     }
   }
 
-  let animalDetails = null;
+  let animalDetailsArr = [];
   if (!isFetching) {
-    animalDetails = getAnimalDetails(data.data) || null;
-    console.log(animalDetails);
+    animalDetailsArr = getAnimalDetails(data.data) || null;
+    console.log(animalDetailsArr);
   } else if (error) {
     console.log(error);
   }
@@ -47,7 +47,7 @@ const SideBar = () => {
       : <aside className="w-1/2 h-screen bg-gray-50 px-4">
           {isLoading
             ? <h2>Loading...</h2>
-            : <SideBarDetails details={animalDetails} />
+            : <SideBarDetails detailsArr={animalDetailsArr} />
           }
         </aside>
     }

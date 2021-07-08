@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { 
   hide
@@ -10,25 +10,49 @@ import {
 } from 'react-icons/io5';
 import { formatAnimalLocationsArray } from '../../app/utils';
 
-const SideBarDetails = ({ details }) => {
+const SideBarDetails = ({ detailsArr }) => {
+  // const [details, setDetails] = useState({});
+  const [detailsIndex, setDetailsIndex] = useState(0);
   const dispatch = useDispatch();
 
+  // Tailwind styles for next and back buttons
+  const changeDetailsBtnEnabled = "flex items-center text-xl hover:text-gray-500 mr-2 cursor-pointer";
+  const changeDetailsBtnDisabled = "flex items-center text-xl text-gray-300 mr-2 cursor-default";
+
+  let details = {};
   let countriesString, statesString, locationDesc;
-  if (details) {
+  if (detailsArr[detailsIndex]) {
+    details = detailsArr[detailsIndex];
+    // console.log(details);
+
     countriesString = formatAnimalLocationsArray(details.countries);
     statesString = formatAnimalLocationsArray(details.states);
 
     locationDesc = `Can be found within ${countriesString} in the ${statesString} region${(details.states.length > 1) ? 's' : ''}.`
   }
 
+  const handleChangeDetails = (next) => {
+    if (next + detailsIndex >= 0 && next + detailsIndex < detailsArr.length ) {
+      setDetailsIndex(detailsIndex + next);
+    } else {
+      return;
+    }
+  }
+
   return (
     <>
       <header className="flex flex-row justify-between py-2">
-        <div class="flex">
-          <div className="flex items-center text-xl hover:text-gray-500 mr-2 cursor-pointer">
+        <div className="flex">
+          <div
+            className={(detailsIndex <= 0) ? changeDetailsBtnDisabled : changeDetailsBtnEnabled}
+            onClick={() => handleChangeDetails(-1)}
+          >
             <BackIcon />Back
           </div>
-          <div className="flex items-center text-xl hover:text-gray-500 cursor-pointer">
+          <div 
+            className={(detailsIndex >= detailsArr.length - 1) ? changeDetailsBtnDisabled : changeDetailsBtnEnabled}
+            onClick={() => handleChangeDetails(1)}
+          >
             Next<ForwardIcon />
           </div>
         </div>
@@ -54,9 +78,9 @@ const SideBarDetails = ({ details }) => {
             </p>
 
             <h4 className="text-lg mt-4">Details</h4>
-            <p>Common Name: {details.name}</p>
             <p>Species Name: {details.sciName}</p>
-            <p>Weight: {details.weight} kg</p>
+            <p>Weight: {details.weight} kgs</p>
+            <p>Lifespan: {details.lifespan} yrs</p>
           </div>
       }
     </>

@@ -54,6 +54,8 @@ const SideBarDetails = ({ detailsArr }) => {
   return (
     <>
       <header className="flex flex-row justify-between py-2">
+        <span>{detailsIndex + 1}/{detailsArr.length}</span>
+
         <div className="flex">
           <div
             className={(detailsIndex <= 0) ? changeDetailsBtnDisabled : changeDetailsBtnEnabled}
@@ -68,6 +70,7 @@ const SideBarDetails = ({ detailsArr }) => {
             Next<ForwardIcon />
           </div>
         </div>
+        
         <div className="flex items-center text-2xl hover:text-gray-500 cursor-pointer">
           <CloseIcon onClick={() => dispatch(hide())} />
         </div>

@@ -3,6 +3,7 @@ import { animalMapApi } from './animalMapApiSlice';
 import appReducer from './appSlice';
 import mapReducer from '../components/map/mapSlice';
 import sidebarReducer from '../components/sidebar/sidebarSlice';
+import modalReducer from '../components/modal/modalSlice';
 
 export default configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export default configureStore({
     app: appReducer,
     map: mapReducer,
     sidebar: sidebarReducer,
+    modal: modalReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware().concat(animalMapApi.middleware),

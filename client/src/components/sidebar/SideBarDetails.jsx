@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { 
-  hide
-} from './sidebarSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   IoClose as CloseIcon,
   IoChevronBack as BackIcon,
   IoChevronForward as ForwardIcon,
 } from 'react-icons/io5';
 import { formatAnimalLocationsArray } from '../../app/utils';
+import { hide } from './sidebarSlice';
+import { 
+  show as showModal,
+  setType as setModalType,
+  setData as setModalData
+} from '../modal/modalSlice';
 
 const SideBarDetails = ({ detailsArr }) => {
   // const [details, setDetails] = useState({});
@@ -42,6 +45,12 @@ const SideBarDetails = ({ detailsArr }) => {
     }
   }
 
+  const handleImageClick = () => {
+    dispatch(setModalType('image'));
+    dispatch(setModalData({ imageUrl: details.imageUrl }));
+    dispatch(showModal());
+  }
+
   return (
     <>
       <header className="flex flex-row justify-between py-2">
@@ -68,7 +77,12 @@ const SideBarDetails = ({ detailsArr }) => {
         ? <h2 className="text-center mt-4">No details found...</h2>
         : <div>
             <div className="flex flex-col justify-center bg-blue-200 border border-black rounded">
-              <img className="border-b border-black rounded-t w-full max-h-72 object-cover cursor-pointer" src={details.imageUrl} alt="animal" />
+              <img 
+                className="border-b border-black rounded-t w-full max-h-72 object-cover cursor-pointer"
+                src={details.imageUrl}
+                alt="animal"
+                onClick={handleImageClick}
+              />
               <h2 className="text-2xl font-bold text-center m-2">{details.name}</h2>
             </div>
             

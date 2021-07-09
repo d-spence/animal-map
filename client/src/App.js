@@ -2,6 +2,7 @@ import React from 'react';
 import Map from './components/map/Map';
 import TopNav from './components/topnav/TopNav';
 import SideBar from './components/sidebar/SideBar';
+import Modal from './components/modal/Modal';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Map />
       </div>
       <SideBar />
+      <Modal />
     </div>
   );
 }

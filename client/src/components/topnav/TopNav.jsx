@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const TopNav = () => {
-  const location = useSelector((state) => state?.map?.currentLocation)
+  const location = useSelector((state) => state?.map?.currentLocation || '')
   // console.log(location);
   const locationString = (location.state || location.country)
     ? `${location.state.long_name}, ${location.country.short_name}`

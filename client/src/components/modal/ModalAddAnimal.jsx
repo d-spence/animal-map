@@ -1,14 +1,15 @@
 import React from 'react';
 import { Formik, useField, Form } from 'formik';
+import Select from 'react-select'; 
 import * as Yup from 'yup';
 
 const initialValues = {
   name: '',
   sciName: '',
+  type: '',
+  desc: '',
   countries: [],
   states: [],
-  type: '',
-  description: '',
   weight: '',
   lifespan: '',
   imageUrl: '',
@@ -24,12 +25,6 @@ const addAnimalSchema = Yup.object().shape({
     .min(2, 'Must be at least 2 characters')
     .max(100, 'Must be 100 characters or less')
     .required('Required'),
-  // countries: Yup.array()
-  //   .min(1, 'Must have at least 1 selection')
-  //   .required('Required'),
-  // states: Yup.array()
-  //   .min(1, 'Must have at least 1 selection')
-  //   .required('Required'),
   type: Yup.string()
     .min(2, 'Must be at least 2 characters')
     .max(100, 'Must be 100 characters or less')
@@ -37,6 +32,12 @@ const addAnimalSchema = Yup.object().shape({
   desc: Yup.string()
     .min(20, 'Must be at least 20 characters')
     .max(2000, 'Must be 2000 characters or less')
+    .required('Required'),
+  countries: Yup.array()
+    .min(1, 'Must have at least 1 selection')
+    .required('Required'),
+  states: Yup.array()
+    .min(1, 'Must have at least 1 selection')
     .required('Required'),
   weight: Yup.number()
     .min(0, 'Must be value of at least 0')
@@ -49,6 +50,21 @@ const addAnimalSchema = Yup.object().shape({
   citeUrl: Yup.string()
     .url('Must be a valid URL'),
 });
+
+const countriesOptions = [
+  { value: 'United States', label: 'United States' },
+  { value: 'Canada', label: 'Canada' },
+  { value: 'Russia', label: 'Russia' },
+  { value: 'China', label: 'China' },
+];
+
+const statesOptions = [
+  { value: 'California', label: 'California' },
+  { value: 'Texas', label: 'Texas' },
+  { value: 'Nevada', label: 'Nevada' },
+  { value: 'Arizona', label: 'Arizona' },
+  { value: 'Oregon', label: 'Oregon' },
+];
 
 const CustomTextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -84,6 +100,33 @@ const CustomTextAreaInput = ({ label, ...props }) => {
   );
 }
 
+const CustomSelectInput = ({ label, ...props }) => {
+  const [field, meta, { setValue, setTouched }] = useField(props.name);
+
+  const onChange = (value) => {
+    const values = value.map(val => val.value);
+    console.log(values);
+    setValue(values);
+  }
+
+  return (
+    <div className="flex flex-col">
+      <label className="text-sm font-bold" htmlFor={props.id || props.name}>{label}</label>
+      <Select
+        className="border border-gray-600 rounded outline-none"
+        closeMenuOnSelect={false}
+        onChange={onChange}
+        onBlur={setTouched}
+        isMulti
+        {...props}
+      />
+      {meta.touched && meta.error ? (
+        <div className="text-xs text-red-600">{meta.error}</div>
+      ) : null}
+    </div>
+  );
+}
+
 const ModalAddAnimal = () => {
   return (
     <div className="h-full overflow-y-auto rounded">
@@ -95,7 +138,7 @@ const ModalAddAnimal = () => {
           if (!isSubmitting) {
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
-              // resetForm();
+              resetForm();
               setSubmitting(false);
             }, 2000);
           }
@@ -108,6 +151,9 @@ const ModalAddAnimal = () => {
             <CustomTextInput label="Type" name="type" placeholder="Mammal" />
 
             <CustomTextAreaInput label="Description" name="desc" placeholder="Enter description"/>
+
+            <CustomSelectInput label="Countries" name="countries" options={countriesOptions} />
+            <CustomSelectInput label="States" name="states" options={statesOptions} />
 
             <CustomTextInput label="Weight (kgs)" name="weight" placeholder="20" type="number" />
             <CustomTextInput label="Lifespan (years)" name="lifespan" placeholder="15" type="number" />

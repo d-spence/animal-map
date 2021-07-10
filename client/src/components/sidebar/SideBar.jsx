@@ -20,17 +20,22 @@ const SideBar = () => {
 
   const getAnimalDetails = (data) => {
     // Use the first item from the animalsByState array if there is one, else use the first from animalsByCountry
-    if (data.animalsByState.length > 0) {
-      return data.animalsByState;
-    } else if (data.animalsByCountry.length > 0) {
-      return data.animalsByCountry;
+    try {
+      if (data.animalsByState.length > 0) {
+        return data.animalsByState;
+      } else if (data.animalsByCountry.length > 0) {
+        return data.animalsByCountry;
+      }
+    } catch (err) {
+      console.log(err);
     }
+    
   }
 
   let animalDetailsArr = [];
   if (!isFetching) {
-    animalDetailsArr = getAnimalDetails(data.data) || [];
-    console.log(animalDetailsArr);
+    animalDetailsArr = getAnimalDetails(data?.data) || [];
+    console.log({animalDetailsArr});
   } else if (error) {
     console.log(error);
   }

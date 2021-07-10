@@ -6,7 +6,7 @@ import Modal from './components/modal/Modal';
 
 function App() {
   return (
-    <div className="flex w-full h-screen m-0 p-0 font-sans">
+    <div className="flex w-full h-screen m-0 p-0 font-sans text-gray-700">
       <div className="flex flex-col w-full h-full">
         <TopNav />
         <Map />

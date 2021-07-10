@@ -32,16 +32,14 @@ const SideBarDetails = ({ detailsArr }) => {
     statesString = formatAnimalLocationsArray(details.states);
 
     locationDesc = (
-      `Can be found ${(countriesString) ? `within ${countriesString}` : ''}` +
-      ` in the ${(statesString) ?  statesString : 'nearby'} region${(details.states.length > 1) ? 's' : ''}.`
+      `Can be found ${(countriesString) ? `within ${countriesString}` : ''} ` +
+      `in the ${(statesString) ? statesString : 'nearby'} region${(details.states.length > 1) ? 's' : ''}.`
     );
   }
 
   const handleChangeDetails = (next) => {
     if (next + detailsIndex >= 0 && next + detailsIndex < detailsArr.length ) {
       setDetailsIndex(detailsIndex + next);
-    } else {
-      return;
     }
   }
 
